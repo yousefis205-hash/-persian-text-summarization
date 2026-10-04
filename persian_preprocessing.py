@@ -119,7 +119,16 @@ PERSIAN_STOPWORDS = {
     "چند", "چگونه", "کجا", "چرا", "بی‌", "روی"
 , "زیر", "بالای",    "یکی", "بوده", "بودند", "شده", "کرده", "دارند", "کنیم", "شوند",
 }
-
+ENGLISH_STOPWORDS = {
+    "the", "a", "an", "and", "or", "but", "if", "then", "is", "are",
+    "was", "were", "be", "been", "being", "to", "of", "in", "on",
+    "at", "by", "for", "with", "about", "as", "into", "through",
+    "this", "that", "these", "those", "it", "its", "their", "they",
+    "he", "she", "his", "her", "has", "have", "had", "will", "would",
+    "can", "could", "may", "might", "not", "no", "also", "than",
+    "which", "who", "whom", "what", "when", "where", "how", "all",
+    "more", "most", "some", "such", "only", "over", "within",
+}
 
 def remove_stopwords(tokens: List[str]) -> List[str]:
     return [t for t in tokens if t not in PERSIAN_STOPWORDS]

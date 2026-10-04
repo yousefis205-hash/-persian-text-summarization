@@ -12,8 +12,7 @@ extractive_summarizer.py
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from persian_preprocessing import tokenize, remove_stopwords
-
+from persian_preprocessing import tokenize, remove_stopwords, ENGLISH_STOPWORDS
 def score_sentences(sentences, position_weight=0.15, similarity_weight=0.25):
     """
     به هر جمله یک امتیاز نهایی می‌دهد (ترکیب سه معیار).
@@ -72,7 +71,7 @@ def extractive_summarize(sentences, ratio=0.2):
     return summary_sentences
 def extract_keywords(sentences, top_n=8):
     """
-    استخراج مهم‌ترین کلمات کلیدی متن، با حذف کلمات ایست قبل از محاسبه TF-IDF.
+    استخراج مهم‌ترین کلمات کلیدی متن، با حذف کلمات ایست فارسی و انگلیسی.
     """
     if len(sentences) < 2:
         return []
@@ -81,6 +80,7 @@ def extract_keywords(sentences, top_n=8):
     for s in sentences:
         tokens = tokenize(s)
         clean_tokens = remove_stopwords(tokens)
+        clean_tokens = [t for t in clean_tokens if t.lower() not in ENGLISH_STOPWORDS]
         cleaned_sentences.append(" ".join(clean_tokens))
 
     vectorizer = TfidfVectorizer()
@@ -94,7 +94,6 @@ def extract_keywords(sentences, top_n=8):
 
     keywords = [term for term, score in term_scores[:top_n] if len(term) > 1]
     return keywords
-
 if __name__ == "__main__":
     # تست سریع با یک متن نمونه
     test_sentences = [
